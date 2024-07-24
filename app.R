@@ -17,7 +17,7 @@ shinyConfig <- initializeModuleConfig() |>
 
 cli::cli_h1("Starting shiny server")
 serverStr <- paste0(Sys.getenv("shinydbServer"), "/", Sys.getenv("shinydbDatabase"))
-cli::cli_alert_info("Connecting to {server}")
+cli::cli_alert_info("Connecting to {serverStr}")
 connectionDetails <- DatabaseConnector::createConnectionDetails(
   dbms = "postgresql",
   server = serverStr, #Sys.getenv("shinydbServer"),
