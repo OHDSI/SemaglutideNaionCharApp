@@ -1,12 +1,12 @@
 # get shiny server and R from the rocker project
 FROM ohdsi/broadsea-shiny:1.0.0
 
-# JNJ Specific 
-RUN apt-get install -y ca-certificates
-COPY ZscalerRootCA.crt /root/ZscalerRootCA.crt
-RUN cat /root/ZscalerRootCA.crt >> /etc/ssl/certs/ca-certificates.crt
-COPY ZscalerRootCA.crt /usr/local/share/ca-certificates
-RUN update-ca-certificates
+# # JNJ Specific 
+# RUN apt-get install -y ca-certificates
+# COPY ZscalerRootCA.crt /root/ZscalerRootCA.crt
+# RUN cat /root/ZscalerRootCA.crt >> /etc/ssl/certs/ca-certificates.crt
+# COPY ZscalerRootCA.crt /usr/local/share/ca-certificates
+# RUN update-ca-certificates
 
 # Set an argument for the app name and port
 ARG APP_NAME
