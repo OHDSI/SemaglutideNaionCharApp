@@ -40,7 +40,7 @@ COPY ./config.json .
 ARG GITHUB_PAT
 ENV GITHUB_PAT=$GITHUB_PAT
 RUN R -e 'remotes::install_github("OHDSI/DatabaseConnector")'
-RUN R -e 'remotes::install_github("OHDSI/OhdsiShinyModules", rev="v2.1.5")'
+RUN R -e 'remotes::install_github("OHDSI/OhdsiShinyModules", ref="v2.1.5")'
 RUN R -e 'remotes::install_github("OHDSI/ShinyAppBuilder", ref="v2.0.1")'
 RUN R -e 'install.packages(c("ggplot2", "plotly", "shinyWidgets"), repos="http://cran.rstudio.com/")'
 ENV DATABASECONNECTOR_JAR_FOLDER /root
