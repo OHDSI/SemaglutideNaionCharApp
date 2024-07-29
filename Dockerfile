@@ -1,12 +1,13 @@
 # get shiny server and R from the rocker project
-FROM ohdsi/broadsea-shiny:1.0.0
+#FROM ohdsi/broadsea-shiny:1.0.0
+FROM ohdsi/ohdsi-shiny-modules:2.1.5
 
 # JNJ Specific 
-# RUN apt-get install -y ca-certificates
-# COPY ZscalerRootCA.crt /root/ZscalerRootCA.crt
-# RUN cat /root/ZscalerRootCA.crt >> /etc/ssl/certs/ca-certificates.crt
-# COPY ZscalerRootCA.crt /usr/local/share/ca-certificates
-# RUN update-ca-certificates
+RUN apt-get install -y ca-certificates
+COPY ZscalerRootCA.crt /root/ZscalerRootCA.crt
+RUN cat /root/ZscalerRootCA.crt >> /etc/ssl/certs/ca-certificates.crt
+COPY ZscalerRootCA.crt /usr/local/share/ca-certificates
+RUN update-ca-certificates
 
 # Set an argument for the app name and port
 ARG APP_NAME
@@ -39,8 +40,8 @@ COPY ./config.json .
 
 ARG GITHUB_PAT
 ENV GITHUB_PAT=$GITHUB_PAT
-RUN R -e 'remotes::install_github("OHDSI/DatabaseConnector")'
-RUN R -e 'remotes::install_github("OHDSI/OhdsiShinyModules", ref="v2.1.5")'
+#RUN R -e 'remotes::install_github("OHDSI/DatabaseConnector")'
+#RUN R -e 'remotes::install_github("OHDSI/OhdsiShinyModules", ref="v2.1.5")'
 RUN R -e 'remotes::install_github("OHDSI/ShinyAppBuilder", ref="v2.0.1")'
 RUN R -e 'install.packages(c("ggplot2", "plotly", "shinyWidgets"), repos="http://cran.rstudio.com/")'
 ENV DATABASECONNECTOR_JAR_FOLDER /root
