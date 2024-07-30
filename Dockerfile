@@ -1,6 +1,5 @@
 # get shiny server and R from the rocker project
-#FROM ohdsi/broadsea-shiny:1.0.0
-FROM ohdsi/ohdsi-shiny-modules:2.1.5
+FROM ohdsi/broadsea-shiny:1.0.0
 
 # JNJ Specific 
 # RUN apt-get install -y ca-certificates
@@ -37,12 +36,13 @@ WORKDIR /srv/shiny-server/${APP_NAME}
 COPY ./app.R .
 COPY ./config.json .
 
-ARG GITHUB_PAT
-ENV GITHUB_PAT=$GITHUB_PAT
-#RUN R -e 'remotes::install_github("OHDSI/DatabaseConnector")'
-#RUN R -e 'remotes::install_github("OHDSI/OhdsiShinyModules", ref="v2.1.5")'
-RUN R -e 'remotes::install_github("OHDSI/ShinyAppBuilder", ref="v2.0.1")'
-#RUN R -e 'utils::update.packages()'
+RUN --mount=type=secret,id=build_github_pat \
+	cp /usr/local/lib/R/etc/Renviron /tmp/Renviron \
+        && echo "GITHUB_PAT=$(cat /run/secrets/build_github_pat)" >> /usr/local/lib/R/etc/Renviron \
+        && R -e "remotes::install_github('OHDSI/ShinyAppBuilder')" \
+	&& R -e "remotes::install_github('OHDSI/OhdsiShinyModules')" \
+        && cp /tmp/Renviron /usr/local/lib/R/etc/Renviron
+
 ENV DATABASECONNECTOR_JAR_FOLDER /root
 RUN R -e "DatabaseConnector::downloadJdbcDrivers('postgresql', pathToDriver='/root')"
 
