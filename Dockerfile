@@ -42,7 +42,7 @@ ENV GITHUB_PAT=$GITHUB_PAT
 #RUN R -e 'remotes::install_github("OHDSI/DatabaseConnector")'
 #RUN R -e 'remotes::install_github("OHDSI/OhdsiShinyModules", ref="v2.1.5")'
 RUN R -e 'remotes::install_github("OHDSI/ShinyAppBuilder", ref="v2.0.1")'
-RUN R -e 'remotes::update_pacakges()'
+RUN R -e 'utils::update.packages()'
 ENV DATABASECONNECTOR_JAR_FOLDER /root
 RUN R -e "DatabaseConnector::downloadJdbcDrivers('postgresql', pathToDriver='/root')"
 
